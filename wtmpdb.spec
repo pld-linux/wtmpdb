@@ -77,7 +77,13 @@ install -d $RPM_BUILD_ROOT/var/lib/wtmpdb
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
+%post
+/sbin/ldconfig
+%systemd_post wtmpdb-rotate.timer wtmpdb-update-boot.service
+
+%preun
+%systemd_preun wtmpdb-rotate.timer wtmpdb-update-boot.service
+
 %postun	-p /sbin/ldconfig
 
 %files
