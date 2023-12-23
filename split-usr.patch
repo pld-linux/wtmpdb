@@ -1,0 +1,11 @@
+--- wtmpdb-0.10.0/meson.build~	2023-12-13 14:56:33.000000000 +0100
++++ wtmpdb-0.10.0/meson.build	2023-12-23 12:19:19.234489409 +0100
+@@ -86,7 +86,7 @@
+ if prefixdir != rootprefixdir and rootprefixdir != '/' and not prefixdir.strip('/').startswith(rootprefixdir.strip('/') + '/')
+         error('Prefix is not below root prefix (now rootprefix=@0@ prefix=@1@)'.format(rootprefixdir, prefixdir))
+ endif
+-systemunitdir = prefixdir / 'lib/systemd/system'
++systemunitdir = '/lib/systemd/system'
+ tmpfilesdir = prefixdir / 'lib/tmpfiles.d'
+ 
+ libpam = cc.find_library('pam')
