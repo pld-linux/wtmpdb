@@ -1,13 +1,13 @@
 Summary:	Y2038 safe version of wtmp
 Summary(pl.UTF-8):	Wersja wtmp odporna na Y2038
 Name:		wtmpdb
-Version:	0.10.0
+Version:	0.11.0
 Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/thkukuk/wtmpdb/releases
 Source0:	https://github.com/thkukuk/wtmpdb/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	e745d4fa82fc66978a4c152e89bb2db4
+# Source0-md5:	f9305ba45b93b4acedf14a53ed62e08e
 Patch0:		split-usr.patch
 URL:		https://github.com/thkukuk/wtmpdb
 BuildRequires:	audit-libs-devel
