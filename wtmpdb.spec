@@ -73,16 +73,16 @@ Pliki nagłówkowe biblioteki wtmpdb.
 %patch -P0 -p1
 
 %build
-%meson build \
+%meson \
 	-Dsplit-usr=true
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/var/lib/wtmpdb
 
-%ninja_install -C build
+%meson_install
 
 :> $RPM_BUILD_ROOT/var/lib/wtmpdb/wtmp.db
 
