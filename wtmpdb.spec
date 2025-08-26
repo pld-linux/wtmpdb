@@ -1,13 +1,17 @@
+#
+# Conditional build:
+%bcond_with	wtmpdbd		# wtmpdbd daemon with sd-varlink support
+
 Summary:	Y2038 safe version of wtmp
 Summary(pl.UTF-8):	Wersja wtmp odporna na Y2038
 Name:		wtmpdb
-Version:	0.11.0
+Version:	0.74.0
 Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/thkukuk/wtmpdb/releases
-Source0:	https://github.com/thkukuk/wtmpdb/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	f9305ba45b93b4acedf14a53ed62e08e
+Source0:	https://github.com/thkukuk/wtmpdb/archive/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	789114600c2f76d16ec37b494a47b854
 Patch0:		split-usr.patch
 URL:		https://github.com/thkukuk/wtmpdb
 BuildRequires:	audit-libs-devel
@@ -20,6 +24,8 @@ BuildRequires:	pam-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	sqlite3-devel >= 3
+BuildRequires:	systemd-devel >= 1:209
+%{?with_wtmpdbd:BuildRequires:	systemd-devel >= 1:257}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -74,7 +80,11 @@ Pliki nagłówkowe biblioteki wtmpdb.
 
 %build
 %meson \
-	-Dsplit-usr=true
+	-Daudit=enabled \
+	-Dman=enabled \
+	-Dsplit-usr=true \
+	-Dsystemd=enabled \
+	-Dwtmpdbd=%{__enabled_disabled wtmpdbd}
 
 %meson_build
 
@@ -111,6 +121,12 @@ rm -rf $RPM_BUILD_ROOT
 %{systemdtmpfilesdir}/wtmpdb.conf
 %dir /var/lib/wtmpdb
 %ghost /var/lib/wtmpdb/wtmp.db
+%if %{with wtmpdbd}
+%attr(755,root,root) %{_libexecdir}/wtmpdbd
+%{_mandir}/man8/wtmpdbd.8*
+%{_mandir}/man8/wtmpdbd.service.8*
+%{_mandir}/man8/wtmpdbd.socket.8*
+%endif
 
 %files -n pam-pam_wtmpdb
 %defattr(644,root,root,755)
